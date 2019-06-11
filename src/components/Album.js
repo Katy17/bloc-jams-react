@@ -21,7 +21,7 @@ class Album extends Component {
           <img id="album-cover-art" src={this.state.album.albumCover} alt={this.state.album.title} />
           <div className="album-details">
             <h1 id="album-title">{this.state.album.title}</h1>
-            <h2 classNAme="artist">{this.state.album.artist}</h2>
+            <h2 className="artist">{this.state.album.artist}</h2>
             <div id="release-info">{this.state.album.releaseInfo}</div>
           </div>
         </section>
@@ -34,7 +34,7 @@ class Album extends Component {
           <tbody>
           {
             this.state.album.songs.map( (song, index) =>
-              <tr>
+              <tr key={index}>
                 <td>{index+1}</td>
                 <td>{song.title}</td>
                 <td>{song.duration} seconds</td>
