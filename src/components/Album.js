@@ -10,9 +10,61 @@ class Album extends Component {
   });
 
   this.state = {
-    album: album
+    album: album,
+    currentSong: album.songs[0],
+    duration: album.songs[0].duration,
+    isPlaying: false,
+    isHovered: false
   };
+
+  this.audioElement = document.createElement('audio');
+  this.audioElement.src = album.songs[0].audioSrc;
 }
+
+play() {
+  this.audioElement.play();
+  this.setState({ isPlaying: true });
+}
+
+pause() {
+  this.audioElement.pause();
+  this.setState({ isPlaying: false });
+}
+
+setSong(song) {
+  this.audioElement.src = song.audioSrc;
+  this.setState({ currentSong: song });
+}
+
+handleSongClick(song) {
+  const isSameSong = this.state.currentSong === song;
+  if (this.state.isPlaying && isSameSong) {
+    this.pause();
+  } else {
+    if (!isSameSong) { this.setSong(song); }
+    this.play();
+  }
+}
+
+hoverOn(song) {
+  this.setState ({isHovered: song});
+}
+
+hoverOff() {
+  this.setState ({isHovered: null});
+}
+
+displayIcon (song, i) {
+  const isSameSong = this.state.currentSong === song;
+    if ((this.state.isHovered === song && !isSameSong) || (!this.state.isPlaying && isSameSong)) {
+      return <span className='ion-md-play'></span>
+    } else if (this.state.isPlaying && isSameSong) {
+      return <span className='ion-md-pause'></span>
+    } else {
+      return i+ 1;
+    }
+  }
+
 
   render() {
     return (
@@ -34,10 +86,18 @@ class Album extends Component {
           <tbody>
           {
             this.state.album.songs.map( (song, index) =>
-              <tr key={index}>
-                <td>{index+1}</td>
-                <td>{song.title}</td>
-                <td>{song.duration} seconds</td>
+
+              <tr className="song" key={index}
+                onClick={() => this.handleSongClick(song)}
+                onMouseEnter={() => this.hoverOn(song)}
+                onMouseLeave={() => this.hoverOff()}>
+                <td className="song-actions">
+                  <button>
+                    {this.displayIcon(song, index)}
+                  </button>
+                </td>
+                <td className="song-title">{song.title}</td>
+                <td className="song-duration">{song.duration} seconds</td>
               </tr>
             )
           }
