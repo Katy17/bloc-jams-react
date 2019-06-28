@@ -15,12 +15,14 @@ class Album extends Component {
     currentSong: album.songs[0],
     currentTime: 0,
     duration: album.songs[0].duration,
+    volume: 0.2,
     isPlaying: false,
     isHovered: false
   };
 
   this.audioElement = document.createElement('audio');
   this.audioElement.src = album.songs[0].audioSrc;
+  this.audioElement.volume = this.state.volume;
 }
 
 play() {
@@ -83,7 +85,7 @@ displayIcon (song, i) {
      this.play();
    }
 
-   componentDidMount() {
+  componentDidMount() {
      this.eventListeners = {
        timeupdate: e => {
          this.setState({ currentTime: this.audioElement.currentTime });
@@ -108,6 +110,32 @@ displayIcon (song, i) {
      this.setState({ currentTime: newTime });
    }
 
+   handleVolumeChange(e) {
+     const newVolume = e.target.value;
+     this.audioElement.volume = newVolume;
+     this.setState({ volume: newVolume });
+   }
+
+   handleVolumeUpClick(e) {
+     if(this.state.volume < 1 ) {
+       const newVolume = this.state.volume + 0.1;
+       this.audioElement.volume = Math.min(newVolume, 1);
+       this.setState({ volume: newVolume });
+     } else this.setState({ volume: 1 });
+   }
+
+   handleVolumeDownClick(e) {
+     if(this.state.volume > 0) {
+       const newVolume = this.state.volume - 0.1;
+       this.audioElement.volume = Math.max(0, newVolume);
+       this.setState({ volume: newVolume });
+     } else this.setState({ volume: 0 });
+   }
+
+   formatTime(timeInSec){
+     return timeInSec ? `${Math.floor(timeInSec / 60)}: ${Number((timeInSec % 60) / 100).toFixed(2).substr(2, 3)}` : "-:--";
+   }
+
 
   render() {
     return (
@@ -129,7 +157,6 @@ displayIcon (song, i) {
           <tbody>
           {
             this.state.album.songs.map( (song, index) =>
-
               <tr className="song" key={index}
                 onClick={() => this.handleSongClick(song)}
                 onMouseEnter={() => this.hoverOn(song)}
@@ -140,7 +167,7 @@ displayIcon (song, i) {
                   </button>
                 </td>
                 <td className="song-title">{song.title}</td>
-                <td className="song-duration">{song.duration} seconds</td>
+                <td className="song-duration">{this.formatTime(song.duration)}</td>
               </tr>
             )
           }
@@ -151,10 +178,15 @@ displayIcon (song, i) {
           currentSong={this.state.currentSong}
           currentTime={this.audioElement.currentTime}
           duration={this.audioElement.duration}
+          volume={this.audioElement.volume}
           handleSongClick={() => this.handleSongClick(this.state.currentSong)}
           handlePrevClick={() => this.handlePrevClick()}
           handleNextClick={() => this.handleNextClick()}
           handleTimeChange={(e) => this.handleTimeChange(e)}
+          handleVolumeChange={(e) => this.handleVolumeChange(e)}
+          handleVolumeUpClick={(e) => this.handleVolumeUpClick(e)}
+          handleVolumeDownClick={(e) => this.handleVolumeDownClick(e)}
+          formatTime={ (e) => this.formatTime(e)}
           />
       </section>
     );
