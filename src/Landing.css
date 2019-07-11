@@ -1,0 +1,30 @@
+.jumbotron { margin-top: 50px; }
+
+.jumbo-img {
+  background-image: url("./images/jumbo-img.jpg");
+  background-color: #cccccc;
+  height: 600px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
+
+.hello-title {
+  margin-top: 30px;
+  font-family: Helvetica, sans-serif;
+  font-weight: bold;
+}
+
+.selling-points {
+  padding: 15px;
+  font-family: "Gill Sans", sans-serif;
+  text-align: center;
+  color: #4d1a00;
+}
+
+.point-title { font-size: 1.4em; }
+
+.point-description { font-size: 1em; }
+
+.fas-icons { color: red; }

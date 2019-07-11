@@ -31,3 +31,7 @@
     transform: rotate(360deg);
   }
 }
+
+.nav-link { color: #fff; }
+
+.nav-link:hover { color: red; }

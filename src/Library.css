@@ -1,0 +1,32 @@
+.library { margin: 75px auto; }
+
+.rounded {
+  width: 50%;
+  height: auto;
+  margin: 80px auto 20px auto;
+}
+
+.img-thumbnail {
+  width: auto;
+  height: 300px;
+  margin-top: 40px;
+}
+
+.img-thumbnail:hover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+a:hover { text-decoration: none; }
+
+.album-desc {
+  padding-top: 10px;
+  color: #4d1a00;
+  font-size: 1.3em;
+  font-family: cursive;
+  font-weight: bold;
+}
+
+.album-desc:hover {
+  color: blue;
+  text-decoration: underline;
+}
